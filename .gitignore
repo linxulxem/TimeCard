@@ -8,11 +8,6 @@
 *.userosscache
 *.sln.docstates
 
-# VS Code
-.vscode/
-
-# Gemini CLI
-.gemini/
 
 # System Settings & Secrets (Security)
 system_setting
