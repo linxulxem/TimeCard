@@ -1,0 +1,31 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Gemini CLI
+.gemini/
+
+# System Settings & Secrets (Security)
+system_setting
+config.dat
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+TimeCard.db
+
+# Logs
+*.log
+
+# Windows thumbnail
+Thumbs.db

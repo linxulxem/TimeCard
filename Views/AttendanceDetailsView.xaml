@@ -1,0 +1,127 @@
+<UserControl x:Class="NfcTimeCard.Views.AttendanceDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="White">
+    <UserControl.Resources>
+        <Style x:Key="ActualTimeStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#94a3b8"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="RoundedTimeStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#1e293b"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="打刻詳細・勤務表" FontSize="24" FontWeight="Bold" Foreground="#1e293b" Margin="0,0,0,15"/>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="従業員" FontSize="11" Foreground="#64748b" Margin="4,0,0,4"/>
+                    <ComboBox x:Name="CmbEmployeeFilter" Width="200" Height="35" DisplayMemberPath="Name" 
+                              VerticalContentAlignment="Center" SelectionChanged="Filter_Changed"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="対象年月" FontSize="11" Foreground="#64748b" Margin="4,0,0,4"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="CmbYear" Width="100" Height="35" VerticalContentAlignment="Center" SelectionChanged="Filter_Changed"/>
+                        <TextBlock Text="年" VerticalAlignment="Center" Margin="5,0,10,0"/>
+                        <ComboBox x:Name="CmbMonth" Width="80" Height="35" VerticalContentAlignment="Center" SelectionChanged="Filter_Changed"/>
+                        <TextBlock Text="月" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <Border Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,0,10" Padding="15,8" Background="#f8fafc" CornerRadius="8" BorderBrush="#e2e8f0" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="選択月の合計勤務時間:" FontSize="13" Foreground="#64748b" VerticalAlignment="Bottom" Margin="0,0,10,2"/>
+                <TextBlock x:Name="TxtMonthlyTotal" Text="0" FontSize="24" FontWeight="Black" Foreground="#4f46e5" VerticalAlignment="Bottom"/>
+                <TextBlock Text=" 時間" FontSize="13" Foreground="#64748b" VerticalAlignment="Bottom" Margin="2,0,0,2"/>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Grid.Row="2" x:Name="GridAttendance" 
+                  AutoGenerateColumns="False" IsReadOnly="True" Background="Transparent" BorderThickness="1" BorderBrush="#e2e8f0"
+                  ColumnHeaderHeight="40" RowHeight="38" GridLinesVisibility="All" HorizontalGridLinesBrush="#f1f5f9" VerticalGridLinesBrush="#f1f5f9"
+                  CanUserAddRows="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                  MouseDoubleClick="GridAttendance_MouseDoubleClick">
+            
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#f8fafc"/>
+                    <Setter Property="Foreground" Value="#475569"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="5,0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="BorderBrush" Value="#e2e8f0"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DayOfWeek}" Value="0">
+                            <Setter Property="Background" Value="#FFF5F5"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DayOfWeek}" Value="6">
+                            <Setter Property="Background" Value="#FFF5F5"/>
+                        </DataTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#F1F5F9"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="営業日" Binding="{Binding DisplayDate}" Width="100"/>
+                <DataGridTextColumn Header="合計時間" Binding="{Binding TotalWorkTime}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Black"/>
+                            <Setter Property="Foreground" Value="#4f46e5"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="出勤1(打刻)" Binding="{Binding In1A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="出勤1(丸め)" Binding="{Binding In1R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+                <DataGridTextColumn Header="退勤1(打刻)" Binding="{Binding Out1A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="退勤1(丸め)" Binding="{Binding Out1R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+
+                <DataGridTextColumn Header="出勤2(打刻)" Binding="{Binding In2A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="出勤2(丸め)" Binding="{Binding In2R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+                <DataGridTextColumn Header="退勤2(打刻)" Binding="{Binding Out2A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="退勤2(丸め)" Binding="{Binding Out2R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+
+                <DataGridTextColumn Header="出勤3(打刻)" Binding="{Binding In3A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="出勤3(丸め)" Binding="{Binding In3R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+                <DataGridTextColumn Header="退勤3(打刻)" Binding="{Binding Out3A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="退勤3(丸め)" Binding="{Binding Out3R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+
+                <DataGridTextColumn Header="出勤4(打刻)" Binding="{Binding In4A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="出勤4(丸め)" Binding="{Binding In4R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+                <DataGridTextColumn Header="退勤4(打刻)" Binding="{Binding Out4A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="退勤4(丸め)" Binding="{Binding Out4R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+
+                <DataGridTextColumn Header="出勤5(打刻)" Binding="{Binding In5A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="出勤5(丸め)" Binding="{Binding In5R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+                <DataGridTextColumn Header="退勤5(打刻)" Binding="{Binding Out5A}" Width="75" ElementStyle="{StaticResource ActualTimeStyle}"/>
+                <DataGridTextColumn Header="退勤5(丸め)" Binding="{Binding Out5R}" Width="75" ElementStyle="{StaticResource RoundedTimeStyle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

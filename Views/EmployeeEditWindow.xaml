@@ -1,0 +1,70 @@
+<Window x:Class="NfcTimeCard.Views.EmployeeEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="従業員登録" Height="650" Width="600" 
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent">
+
+    <Border CornerRadius="25" Background="White" BorderBrush="#e2e8f0" BorderThickness="1">
+        <Grid Margin="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="従業員情報の管理" FontSize="26" FontWeight="Bold" Foreground="#1e293b" Margin="0,0,0,30"/>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,0,15,0">
+                    <TextBlock Text="従業員コード" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                    <TextBox x:Name="TxtCode" Style="{StaticResource ModernInputStyle}" Margin="0,0,0,15"/>
+
+                    <TextBlock Text="氏名" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                    <TextBox x:Name="TxtName" Style="{StaticResource ModernInputStyle}" Margin="0,0,0,15"/>
+
+                    <TextBlock Text="顔写真" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Width="120" Height="160" CornerRadius="8" BorderBrush="#e2e8f0" BorderThickness="2">
+                            <Image x:Name="ImgPhoto" Stretch="UniformToFill"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center">
+                            <Button Content="📁 ファイルから選択" Click="SelectPhoto_Click" Margin="0,0,0,12" Padding="15,10" Background="#f1f5f9" BorderThickness="0" Cursor="Hand"/>
+                            <Button Content="📷 カメラで撮影" Click="CapturePhoto_Click" Padding="15,10" Background="#f1f5f9" BorderThickness="0" Cursor="Hand"/>
+                            <TextBlock Text="※最長辺800pxに自動リサイズされます。" FontSize="11" Foreground="#94a3b8" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="性別" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                            <ComboBox x:Name="CmbGender" Height="40" VerticalContentAlignment="Center">
+                                <ComboBoxItem Content="男性" IsSelected="True"/><ComboBoxItem Content="女性"/><ComboBoxItem Content="その他"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="NFC ID" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                            <TextBox x:Name="TxtNfcId" Style="{StaticResource ModernInputStyle}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="住所" FontSize="12" Foreground="#64748b" Margin="4,0,0,5"/>
+                    <TextBox x:Name="TxtAddress" Style="{StaticResource ModernInputStyle}" Margin="0,0,0,15"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="キャンセル" Click="Cancel_Click" Width="120" Height="45" Background="Transparent" BorderThickness="0" Foreground="#94a3b8" Cursor="Hand" Margin="0,0,15,0"/>
+                <Button Content="保存する" Click="Save_Click" Width="150" Height="45" Style="{StaticResource ActionButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

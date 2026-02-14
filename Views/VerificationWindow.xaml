@@ -1,0 +1,27 @@
+<Window x:Class="NfcTimeCard.Views.VerificationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="実行確認" Height="300" Width="400"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent">
+
+    <Border CornerRadius="20" Background="White" BorderBrush="#f87171" BorderThickness="2">
+        <StackPanel Margin="30">
+            <TextBlock Text="⚠ 注意" FontSize="20" FontWeight="Bold" Foreground="#ef4444" Margin="0,0,0,10"/>
+            <TextBlock Text="データベースを初期化します。既存のファイルはバックアップされます。" TextWrapping="Wrap" Foreground="#4b5563" Margin="0,0,0,20"/>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                <TextBlock Text="確認コード：" VerticalAlignment="Center" Foreground="#64748b"/>
+                <TextBlock x:Name="TxtVerifyCode" Text="1234" FontSize="24" FontWeight="Black" Foreground="#1e293b" Margin="10,0"/>
+            </StackPanel>
+
+            <TextBox x:Name="InputCodeField" Style="{StaticResource ModernInputStyle}" Tag="ここに数値を入力" HorizontalContentAlignment="Center" FontSize="18"/>
+
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <Button Content="キャンセル" Click="Cancel_Click" Background="Transparent" BorderThickness="0" Foreground="#94a3b8" Cursor="Hand"/>
+                <Button Grid.Column="1" Content="OK" Click="Ok_Click" Style="{StaticResource ActionButtonStyle}" Background="#ef4444"/>
+            </Grid>
+        </StackPanel>
+    </Border>
+</Window>
